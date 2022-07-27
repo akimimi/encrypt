@@ -1,6 +1,8 @@
 Akimimi\Encrypt
 ================================================================
 
+[![Build Status](https://app.travis-ci.com/akimimi/encrypt.svg?branch=main)](https://app.travis-ci.com/akimimi/encrypt)
+
 ## Description
 
 This library provides encrypt and decrypt algorithm utilities.
