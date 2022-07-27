@@ -39,7 +39,7 @@ $password = "123456";
 $data = "akimimi";
 
 $encryptUtil = new AesEcbEncrypt(16); // 128 bit
-$encryptUtil->setPasswword($password);
+$encryptUtil->setPassword($password);
 $encryptedStr = $encryptUtil->encrypt($data); // 0x2582ec23698d74912c044ef3e29ac86b
 ```
 
@@ -55,7 +55,7 @@ $data = "akimimi";
 
 $encryptUtil = new AesEcbEncrypt(16); // 128 bit
 $encryptUtil->setBytesEncoder(new Base64Encoder());
-$encryptUtil->setPasswword($password);
+$encryptUtil->setPassword($password);
 $encryptedStr = $encryptUtil->encrypt($data); // JYLsI2mNdJEsBE7z4prIaw==
 $decryptedStr = $encryptUtil->decrypt($encryptedStr); // akimimi
 ```
