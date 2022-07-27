@@ -8,47 +8,47 @@ class BasicEncrypt {
   /**
    * @var string
    */
-  public string $algorithm = "";
+  public $algorithm = "";
 
   /**
    * @var int
    */
-  public int $encryptOption = 0;
+  public $encryptOption = 0;
 
   /**
    * @var string
    */
-  protected string $_key = "";
+  protected $_key = "";
 
   /**
    * @var Encoder|null
    */
-  protected ?Encoder $_bytesEncoder = null;
+  protected $_bytesEncoder = null;
 
   /**
    * @var string
    */
-  protected string $_rawData = "";
+  protected $_rawData = "";
 
   /**
    * @var string
    */
-  protected string $_encodedData = "";
+  protected $_encodedData = "";
 
   /**
    * @var string
    */
-  protected string $_encryptData = "";
+  protected $_encryptData = "";
 
   /**
    * @var string
    */
-  protected string $_decryptData = "";
+  protected $_decryptData = "";
 
   /**
    * @var string
    */
-  protected string $_decodedData = "";
+  protected $_decodedData = "";
 
   /**
    * Set an encoder for encrypt utility.

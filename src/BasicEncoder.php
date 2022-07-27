@@ -3,7 +3,7 @@ namespace Akimimi\Encrypt;
 
 class BasicEncoder {
 
-  public array $params = [];
+  public $params = [];
 
   /**
    * Set parameter for encoder utility.

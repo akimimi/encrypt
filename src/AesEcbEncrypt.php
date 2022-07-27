@@ -10,12 +10,12 @@ class AesEcbEncrypt extends BasicEncrypt {
   /**
    * @var int
    */
-  private int $_pwdSize = 16;
+  private $_pwdSize = 16;
 
   /**
    * @var string
    */
-  protected string $_preprocessData = "";
+  protected $_preprocessData = "";
 
   const DataBlockSize = 16;
 
