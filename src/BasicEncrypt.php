@@ -21,14 +21,39 @@ class BasicEncrypt {
   protected $_key = "";
 
   /**
+   * @var int
+   */
+  protected $_pwdSize = 0;
+
+  /**
+   * @var string
+   */
+  protected $_iv = "";
+
+  /**
    * @var Encoder|null
    */
   protected $_bytesEncoder = null;
 
   /**
+   * @var Padder|null
+   */
+  protected $_passwordPadder = null;
+
+  /**
+   * @var Padder|null
+   */
+  protected $_dataPadder = null;
+
+  /**
    * @var string
    */
   protected $_rawData = "";
+
+  /**
+   * @var int
+   */
+  protected $_dataBlockSize = 0;
 
   /**
    * @var string
@@ -62,12 +87,46 @@ class BasicEncrypt {
   }
 
   /**
+   * Set padder for encrypt utility.
+   * @param Padder $padder
+   * @param string $target "password" is configured for encode password,
+   *                       "data" is configured for data and initialization vector,
+   *                       "all" is configured for both password and data.
+   * @return void
+   */
+  public function setPadder(Padder $padder, string $target) :void {
+    if ($target == "password") {
+      $this->_passwordPadder = $padder;
+    } elseif ($target == "data") {
+      $this->_dataPadder = $padder;
+    } elseif ($target == "all") {
+      $this->_dataPadder = $padder;
+      $this->_passwordPadder = $padder;
+    }
+}
+
+/**
    * Set password for encrypt utility.
    * @param string $password
    * @return void
    */
   public function setPassword(string $password) :void {
+    if (!empty($this->_passwordPadder)) {
+      $password = $this->_passwordPadder->pad($password, $this->_pwdSize);
+    }
     $this->_key = $password;
+  }
+
+  /**
+   * Set initialization vector for encrypt utility.
+   * @param string $iv
+   * @return void
+   */
+  public function setIv(string $iv) :void {
+    if (!empty($this->_dataPadder)) {
+      $iv = $this->_dataPadder->pad($iv, $this->_dataBlockSize);
+    }
+    $this->_iv = $iv;
   }
 
   /**
@@ -79,10 +138,13 @@ class BasicEncrypt {
    * @throws EncryptFailedException
    */
   public function encrypt(string $data) :string {
+    if (!empty($this->_dataPadder)) {
+      $data = $this->_dataPadder->pad($data, $this->_dataBlockSize);
+    }
     $this->_rawData = $data;
     if (!empty($this->algorithm)) {
       $data = openssl_encrypt(
-        $data, $this->algorithm, $this->_key, $this->encryptOption);
+        $data, $this->algorithm, $this->_key, $this->encryptOption, $this->_iv);
     } else {
       $data = false;
     }
@@ -115,13 +177,17 @@ class BasicEncrypt {
     $this->_decodedData = $data;
     if (!empty($this->algorithm)) {
       $data = openssl_decrypt(
-        $data, $this->algorithm, $this->_key, $this->encryptOption);
+        $data, $this->algorithm, $this->_key, $this->encryptOption, $this->_iv);
     } else {
       $data = false;
     }
     $this->_decryptData = $data;
     if ($data === false) {
       throw new DecryptFailedException();
+    }
+
+    if (!empty($this->_dataPadder)) {
+      $data = $this->_dataPadder->trim($data, $this->_dataBlockSize);
     }
     return $data;
   }

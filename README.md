@@ -7,8 +7,14 @@ Akimimi\Encrypt
 
 This library provides encrypt and decrypt algorithm utilities.
 
-`AesEcbEncrypt` class provides 128/192/256 bit AES ECB encrypt and decrypt algorithm, 
+`AesEcbEncrypt` class provides 128/192/256 bits AES ECB encrypt and decrypt algorithm, 
 with zero padding by default.
+
+`AesCbcEncrypt` class provides 128/192/256 bits AES CBC encrypt and decrypt algorithm,
+with zero padding by default.
+
+`Sm4CbcEncrypt` class provides 128 bits SM4 CBC encrypt and decrypt algorithm,
+with PKCS5 padding for data by default, and zero padding for password.
 
 ## Installation
 
