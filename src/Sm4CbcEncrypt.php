@@ -18,6 +18,7 @@ class Sm4CbcEncrypt extends BasicEncrypt {
     $this->_dataBlockSize = self::DataBlockSize;
     $this->encryptOption = OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING;
     $this->setPadder(new ZeroPadder(), "password");
+    $this->setPadder(new ZeroPadder(), "iv");
     $this->setPadder(new Pkcs5Padder(), "data");
     $this->algorithm = "SM4-CBC";
   }

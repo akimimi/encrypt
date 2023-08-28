@@ -46,6 +46,11 @@ class BasicEncrypt {
   protected $_dataPadder = null;
 
   /**
+   * @var Padder|null
+   */
+  protected $_ivPadder = null;
+
+  /**
    * @var string
    */
   protected $_rawData = "";
@@ -99,8 +104,11 @@ class BasicEncrypt {
       $this->_passwordPadder = $padder;
     } elseif ($target == "data") {
       $this->_dataPadder = $padder;
+    } elseif ($target == "iv") {
+      $this->_ivPadder = $padder;
     } elseif ($target == "all") {
       $this->_dataPadder = $padder;
+      $this->_ivPadder = $padder;
       $this->_passwordPadder = $padder;
     }
 }
@@ -123,8 +131,8 @@ class BasicEncrypt {
    * @return void
    */
   public function setIv(string $iv) :void {
-    if (!empty($this->_dataPadder)) {
-      $iv = $this->_dataPadder->pad($iv, $this->_dataBlockSize);
+    if (!empty($this->_ivPadder)) {
+      $iv = $this->_ivPadder->pad($iv, $this->_dataBlockSize);
     }
     $this->_iv = $iv;
   }

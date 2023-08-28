@@ -13,7 +13,7 @@ class Pkcs5Padder implements Padder {
    * @return string
    */
   function pad(string $data, int $blockSize): string {
-    $pad = ($blockSize - (strlen($data) % $blockSize)) % $blockSize;
+    $pad = ($blockSize - (strlen($data) % $blockSize));
     return $data . str_repeat(chr(ord("\0") + $pad), $pad);
   }
 
@@ -30,7 +30,7 @@ class Pkcs5Padder implements Padder {
 
     $last = $data[strlen($data) - 1];
     $lastPad = ord($last) - ord("\0");
-    if ($lastPad > 0 && $lastPad < $blockSize) {
+    if ($lastPad > 0 && $lastPad <= $blockSize) {
       return rtrim($data, chr(ord("\0") + $lastPad));
     } else {
       return $data;
